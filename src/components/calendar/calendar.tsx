@@ -32,12 +32,10 @@ function Calendar() {
 
     };
 
-    const handleDay = (date:Date)=>{
+    const handleDay = (date: Date) => {
         console.log(date)
 
     }
-
-
 
 
     return (
@@ -72,7 +70,7 @@ function Calendar() {
 
                     <tr key={index} className="week">
                         {week.map((date: Date, index: number) => date ?
-                            <td      onClick={() => handleDay(date)} key={index} className={s.day}>{date.getDate()}</td>
+                            <td onClick={() => handleDay(date)} key={index} className={s.day}>{date.getDate()}</td>
                             :
                             <td key={index}/>
                         )}
