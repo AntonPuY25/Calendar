@@ -1,0 +1,106 @@
+.calendar header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+
+}
+
+.calendar header button,
+.calendar header select {
+    margin: 0 4px;
+}
+
+.calendar table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: auto;
+    height:600px;
+    width:70%;
+}
+
+.calendar th {
+    vertical-align: middle;
+    text-align: center;
+    height: 36px;
+}
+
+.calendar .day {
+    padding: 4px 8px;
+    vertical-align: middle;
+    text-align: center;
+    border: 2px solid transparent;
+}
+
+.calendar .day:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+}
+
+.calendar .day.selected {
+    border: 2px solid dodgerblue;
+}
+
+.calendar .day.today {
+    background-color: rgba(30, 144, 255, 0.55);
+    color: white;
+}
+
+.calendar .day.today:hover {
+    background-color: #0081ff;
+}
+
+.calendar .day.today.selected {
+    border: 1px solid lightgray;
+}
+.popup{
+    width:100%;
+    height: 2000px;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+
+}
+.hide{
+    display: none;
+}
+.popup .popupContent{
+    position: relative;
+    margin:40px auto 0px auto;
+    width:400px;
+    height: 250px;
+    padding:10px;
+    background-color: #c5c5c5;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.popup .popupContent input {
+    height: 30px;
+    width: 190px;
+    border-radius: 7px;
+    border: 1px solid lightgray;
+    margin-top: 15px;
+    text-align: center;
+
+}
+.popup .popupContent input[type="radio"] {
+    margin-top: 2px;
+    width: 20px;
+}
+.x{
+    position: absolute;
+    right:10px;
+    top:0;
+    padding: 10px;
+    color:black;
+    font-size:17px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
