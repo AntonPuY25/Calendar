@@ -9,13 +9,13 @@ import SuperRadio from "../common/superRadio/superRadio";
 
 function Calendar() {
 
-    const time = ['10:00','12:00','14:00']
+    const time = [10, 12, 14]
     const localState = useSelector<AppRootStateType, TypeInitialState>(store => store.CalendarReducer)
     const [editMode, setEditMode] = useState<boolean>(false)
     const [currentDate, setCurrentDate] = useState<Date>()
     const [customerName, setCustomerName] = useState<string>('')
     const [customerEmail, setCustomerEmail] = useState<string>('')
-    const [timeReserved, setTimeReserved] = useState<string>(time[1])
+    const [timeReserved, setTimeReserved] = useState<number>(time[1])
 
     const dispatch = useDispatch()
     const monthData = getMonthData(localState.data.getFullYear(), localState.data.getMonth())
@@ -32,7 +32,6 @@ function Calendar() {
     const handleSelectMonth = (e: ChangeEvent<HTMLSelectElement>) => {
         const date = new Date(localState.data.getFullYear(), +e.currentTarget.value);
         dispatch(changeDataAC(date));
-
     };
     const handleSelectYear = (e: ChangeEvent<HTMLSelectElement>) => {
         const date = new Date(+e.currentTarget.value, localState.data.getMonth());
@@ -44,13 +43,15 @@ function Calendar() {
         dispatch(selectDataAC(date));
         setEditMode(true)
         setCustomerName('')
-
-
+        setCustomerEmail('')
     }
 
     const reserveDate = () => {
         dispatch(reservedDataAC(currentDate!));
         setEditMode(false)
+        sessionStorage.setItem(formatDate(currentDate), JSON.stringify({name:customerName,time:timeReserved}))
+        console.log(currentDate!.getDay())
+        console.log(timeReserved)
     }
     return <>
         <div className={editMode ? 'popup' : 'hide'}>
@@ -60,15 +61,12 @@ function Calendar() {
                     setCustomerName(e.currentTarget.value)} type="text"/>
                 <input placeholder={'Email'} value={customerEmail} onChange={(e) =>
                     setCustomerEmail(e.currentTarget.value)} type="text"/>
-                        <span><SuperRadio
-                            name={"value"}
-                            options={time}
-                            value={timeReserved}
-                            onChangeOption={setTimeReserved}/></span>
-
-
-
-                <button onClick={reserveDate}>Reserve</button>
+                <span><SuperRadio
+                    name={"value"}
+                    options={time}
+                    value={timeReserved}
+                    onChangeOption={setTimeReserved}/></span>
+                <button className="btn" disabled={(customerName.length&&customerEmail.length)<5} onClick={reserveDate}>Reserve</button>
             </div>
         </div>
         <div className={'calendar'}>
@@ -102,6 +100,7 @@ function Calendar() {
 
                     <tr key={index} className="week">
                         {week.map((date: Date, index: number) => {
+                            let DataReserved = sessionStorage.getItem(formatDate(date))
                                 let dateString = formatDate(date); //YYYY-MM-DD
                                 let isInArr = localState.reservedDate.includes(dateString)
                                 return date ?
@@ -118,20 +117,23 @@ function Calendar() {
                                             {date.getDate()}
                                         </div>
                                         <div>
-                                            {customerName}
+                                            {DataReserved&&JSON.parse(DataReserved).name}
                                         </div>
                                         <div>
-                                            Стоимость:{date.getDay() === 6 || date.getDay() === 0 ? '30р.' : '10р.'}
+                                            Стоимость:{date.getDay() === 6 || date.getDay() === 0 ?
+                                            DataReserved&&(24 - JSON.parse(DataReserved).time) * 30 + 'р.' :
+                                            DataReserved&&(24 - JSON.parse(DataReserved).time) * 10 + 'р.'}
                                         </div>
                                         <div>
-                                            Время:{timeReserved}
+                                            Бронь с:{timeReserved + ":00"}
                                         </div>
                                     </div> : <div>
                                         <div>
                                             {date.getDate()}
                                         </div>
                                         <div>
-                                            Стоимость:{date.getDay() === 6 || date.getDay() === 0 ? '30р.' : '10р.'}
+                                            Стоимость:{date.getDay() === 6 || date.getDay() === 0 ?
+                                            '30р./час' : '10р./час'}
                                         </div>
                                     </div>}</td>
 
@@ -146,7 +148,7 @@ function Calendar() {
         </div>
 
     </>
-;
+        ;
 }
 
 export default Calendar;

@@ -104,3 +104,35 @@
     cursor: pointer;
 }
 
+.btn {
+    box-shadow: 0 10px 14px -7px #276873;
+    background: #599bb3 linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    padding: 5px 10px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #3d768a;
+    outline: none;
+}
+
+.btn:hover {
+    background: #408c99 linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+}
+.btn:hover:disabled {
+    background: #aaaaaa;
+    cursor: default;
+}
+
+.btn:active {
+    position: relative;
+    top: 1px;
+}
+
+.btn:disabled {
+    background: #aaaaaa;
+}
