@@ -6,9 +6,9 @@ import {changeDataAC, formatDate, reservedDataAC, selectDataAC, TypeInitialState
 import {areEqual, getMonthData} from "./functions";
 import classnames from 'classnames';
 import SuperRadio from "../common/superRadio/superRadio";
+import {Api} from "../../dall/api";
 
 function Calendar() {
-
     const time = [10, 12, 14]
     const localState = useSelector<AppRootStateType, TypeInitialState>(store => store.CalendarReducer)
     const [editMode, setEditMode] = useState<boolean>(false)
@@ -16,14 +16,12 @@ function Calendar() {
     const [customerName, setCustomerName] = useState<string>('')
     const [customerEmail, setCustomerEmail] = useState<string>('')
     const [timeReserved, setTimeReserved] = useState<number>(time[1])
-
     const dispatch = useDispatch()
     const monthData = getMonthData(localState.data.getFullYear(), localState.data.getMonth())
     const handlePrevMonthButtonClick = () => {
         const date = new Date(localState.data.getFullYear(), localState.data.getMonth() - 1);
         dispatch(changeDataAC(date));
     };
-    console.log(localState.reservedDate)
     const handleNextMonthButtonClick = () => {
         const date = new Date(localState.data.getFullYear(), localState.data.getMonth() + 1);
         dispatch(changeDataAC(date));
@@ -50,9 +48,16 @@ function Calendar() {
         dispatch(reservedDataAC(currentDate!));
         setEditMode(false)
         sessionStorage.setItem(formatDate(currentDate), JSON.stringify({name:customerName,time:timeReserved}))
-        console.log(currentDate!.getDay())
-        console.log(timeReserved)
+      let cost = currentDate?.getDay() === 6 || currentDate?.getDay() === 0 ?
+              (24 - timeReserved) * 30 + 'р.':
+               (24 - timeReserved) * 10 + 'р.'
+
+      Api.sendEmail(customerEmail,timeReserved,cost,customerName)
     }
+
+
+
+
     return <>
         <div className={editMode ? 'popup' : 'hide'}>
             <div className={'popupContent'}>
@@ -121,7 +126,7 @@ function Calendar() {
                                         </div>
                                         <div>
                                             Стоимость:{date.getDay() === 6 || date.getDay() === 0 ?
-                                            DataReserved&&(24 - JSON.parse(DataReserved).time) * 30 + 'р.' :
+                                            DataReserved&&(24 - JSON.parse(DataReserved).time) * 30 + 'р.':
                                             DataReserved&&(24 - JSON.parse(DataReserved).time) * 10 + 'р.'}
                                         </div>
                                         <div>
