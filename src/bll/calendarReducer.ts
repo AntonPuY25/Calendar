@@ -1,6 +1,7 @@
 export const initialState: TypeInitialState = {
     years: [ 2021, 2022,2023,2024,2025],
-    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
     weekDayNames: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
     data: new Date(),
     currentDate: new Date(),
@@ -28,19 +29,19 @@ export const reservedDataAC = (data: Date) => {
 }
 export const CalendarReducer = (state: TypeInitialState = initialState, action: TypeActions): TypeInitialState => {
     switch (action.type) {
-        case "/calendarReducer/CHANGE_DATA":
+        case '/calendarReducer/CHANGE_DATA':
             return {
                 ...state,
                 data: action.data
             }
-        case "/calendarReducer/SELECT_DATA":
+        case '/calendarReducer/SELECT_DATA':
             return{
                 ...state,
                 selectedDate:action.data
             }
-        case "/calendarReducer/RESERVED_DATA":
+        case '/calendarReducer/RESERVED_DATA':
             let arr = [...state.reservedDate];
-            let formatted = formatDate(action.data);
+            let formatted = formatDate(action.data)
             if (arr.includes(formatted)) {
                 return {
                     ...state,
@@ -84,5 +85,5 @@ export const formatDate = (d?: Date): string => {
     if (day.length < 2)
         day = '0' + day;
 
-    return [year, month, day].join('-');
+    return [year, month, day].join('-')
 }

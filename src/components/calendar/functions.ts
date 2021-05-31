@@ -1,9 +1,6 @@
-const DAYS_IN_WEEK = 7;
-
-const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-const WEEK_DAYS_FROM_MONDAY = [6, 0, 1, 2, 3, 4, 5];
-
+const DAYS_IN_WEEK = 7
+const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+const WEEK_DAYS_FROM_MONDAY = [6, 0, 1, 2, 3, 4, 5]
 const Month = {
     January: 0,
     February: 1,
@@ -17,20 +14,21 @@ const Month = {
     October: 9,
     November: 10,
     December: 11
-};
+}
 
 export function areEqual(a: Date, b: Date) {
     if (!a || !b) return false;
-
     return (
         a.getFullYear() === b.getFullYear() &&
         a.getMonth() === b.getMonth() &&
         a.getDate() === b.getDate()
-    );
-}
+    )
+} //Функция сравнивания текущий даты ,
+// используется для добавения нужных стилей в календаре
+
 
 export function isLeapYear(year: number) {
-    return !((year % 4) || (!(year % 100) && (year % 400)));
+    return !((year % 4) || (!(year % 100) && (year % 400)))
 }
 
 export function getDaysInMonth(date: Date) {
@@ -43,27 +41,25 @@ export function getDaysInMonth(date: Date) {
     } else {
         return daysInMonth;
     }
-}
+} //Высчитывание  дней месяца
 
 export function getDayOfWeek(date: Date) {
     const dayOfWeek = date.getDay();
-
     return WEEK_DAYS_FROM_MONDAY[dayOfWeek];
-}
+} //Высчитывание дней недели
 
 export function getMonthData(year: number, month: number) {
     const result: any = [];
     const date = new Date(year, month);
     const daysInMonth = getDaysInMonth(date);
     const monthStartsOn = getDayOfWeek(date);
-    let day = 1;
+    let day = 1
 
     for (let i = 0; i < (daysInMonth + monthStartsOn) / DAYS_IN_WEEK; i++) {
         result[i] = [];
 
         for (let j = 0; j < DAYS_IN_WEEK; j++) {
             if ((i === 0 && j < monthStartsOn) || day > daysInMonth) {
-
                 result[i][j] = undefined;
             } else {
 
@@ -72,5 +68,6 @@ export function getMonthData(year: number, month: number) {
         }
     }
 
-    return result;
-}
+    return result
+} // Функция высчитвания нужных дат для текущего месяца и года(итоговый результат который
+// мы используем в нашем календаре)

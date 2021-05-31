@@ -1,5 +1,5 @@
-import React from 'react';
-import Calendar from "./components/calendar/calendar";
+import React from 'react'
+import Calendar from './components/calendar/calendar'
 
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <div>
     <Calendar/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
